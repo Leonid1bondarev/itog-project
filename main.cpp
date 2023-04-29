@@ -1,9 +1,7 @@
 #include <iostream>
 using namespace std;
 int main()
-{
-	cout << "TEST FOR GIT\n";
-	
+{	
 	int login, password, name; //данные аккаунта(вынесены за цикл для того, чтобы видеть их в любой части кода)
 	setlocale(LC_ALL, "rus");
 	cout << "Добро пожаловать в итоговый проект первого модуля, приложение чат!" << endl;
