@@ -1,9 +1,42 @@
 #include <iostream>
-using namespace std;
+
+#include "Acc.h"
+
+//using namespace std;
+
 int main()
 {	
-	int login, password, name; //данные аккаунта(вынесены за цикл для того, чтобы видеть их в любой части кода)
 	setlocale(LC_ALL, "rus");
+	
+	//Класс аккаунтЫ
+	Accounts_data accs; // тут будут храниться ВСЕ логины и их пароли
+	cout << "Count accs: " << accs.count_acc() << endl; //вывод количества имеющихся логинов
+
+	Account first_acc("Evgen", "strelok" , "QWE123rt"); // зарегали первый акк
+	Account second_acc("Leonid", "voin", "asdf453");	// зарегали второй акк
+
+	cout << first_acc.get_login() << endl;				//вывод логина из первого аккаунта
+
+	accs.add_acc(first_acc);		//добавили первый акк в базу
+	accs.add_acc(second_acc);		//добавили второй акк в базу
+
+	cout << "Count accs: " << accs.count_acc() << endl;	//вывод количества имеющихся логинов
+
+	if (accs.contains("voin")) cout << "Login is busy\n";		//тест проверки на занятость логина
+	else cout << "Login is free\n";
+
+	if (accs.contains("strelok")) cout << "Login is busy\n";	//тест проверки на занятость логина
+	else cout << "Login is free\n";
+
+	if (accs.contains("voin123")) cout << "Login is busy\n";	//тест проверки на занятость логина
+	else cout << "Login is free\n";
+
+	//Класс данные чата
+	//TO DO
+
+	int login, password, name; //данные аккаунта(вынесены за цикл для того, чтобы видеть их в любой части кода)
+	
+
 	cout << "Добро пожаловать в итоговый проект первого модуля, приложение чат!" << endl;
 	while (true)
 	{
@@ -32,7 +65,7 @@ int main()
 			cin >> login;
 			cout << "Введите пароль для вашего аккаунта: " << endl;
 			cin >> password;
-			name = _name; // приравниваем имя аккаунта, которое будет отображаться в программе к имени акканта(для строчки кода,
+			//name = _name; // приравниваем имя аккаунта, которое будет отображаться в программе к имени акканта(для строчки кода,
 			//которая отображает имя аккаунта, в который мы вошли)
 			break;
 		default:
@@ -67,4 +100,5 @@ int main()
 
 	}
 
+	return 0;
 }
