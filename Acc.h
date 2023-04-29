@@ -37,15 +37,18 @@ public:
 		data.push_back(new_acc);
 	}
 
-	//void rem_acc(); // РїРѕРєР° РЅРµ РЅСѓР¶РЅРѕ, РЅРѕ РЅР° Р±СѓРґСѓС‰РµРµ
+	//void rem_acc(); // пока не нужно, но на будущее
 
-	bool contains(string login); // РїСЂРѕРІРµСЂРєР°, Р·Р°СЂРµРіР°РЅ С‚Р°РєРѕР№ Р°РєРєР°СѓРЅС‚ РёР»Рё РЅРµС‚
+	bool containsLog(string login); // проверка, зареган такой аккаунт или нет
+
+	bool containsName(string name);
+
+	bool containsPassword(string password);
 
 	Account get_acc(); //TO DO
 
 protected:
-	int count; // РєРѕР»РёС‡РµСЃС‚РІРѕ РёРјРёРµСЋС‰РёС…СЃСЏ Р°РєРєР°СѓРЅС‚РѕРІ
+	int count; // количество имиеющихся аккаунтов
 	vector<Account> data;
 };
-
 
