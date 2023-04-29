@@ -29,7 +29,7 @@ int main()
 	{
 		// Запуск меню логина
 		for_menu rezult = login_menu(accs);  // в переменной rezult храним id пользователя, который залогинился успешно
-		if (rezult.res) break;	// если вышли из функции с false, то выйти из цикла while и завершить прогу
+		if (!rezult.res) break;	// если вышли из функции с false, то выйти из цикла while и завершить прогу
 
 		// Запуск меню чата
 		if (chat_menu(accs, rezult.id)) break;		// если вышли из функции с false, то выйти из цикла while
