@@ -9,12 +9,17 @@ using namespace std;
 class Account
 {
 public:
-	Account(string name, string login, string password);
-	Account(string login, string password);
+	Account() : _name(""), _login(""), _password("") {}
+	//Account(string name, string login, string password);
+	//Account(string login, string password);
 
 	string get_name() { return _name; }
 	string get_login() { return _login; }
 	string get_password() { return _password; }
+
+	void set_name(string name)			{ _name = name; }
+	void set_login(string login)		{ _login = login; }
+	void set_password(string password)	{ _password = password; }
 
 protected:
 	string _name;
@@ -31,24 +36,22 @@ public:
 	}
 
 	inline int count_acc() { return count; }
+
 	void add_acc(Account new_acc)
 	{
 		count++;
 		data.push_back(new_acc);
 	}
 
-	//void rem_acc(); // пока не нужно, но на будущее
-
-	bool containsLog(string login); // проверка, зареган такой аккаунт или нет
+	bool containsLog(string login); // РїСЂРѕРІРµСЂРєР°, Р·Р°СЂРµРіР°РЅ С‚Р°РєРѕР№ Р°РєРєР°СѓРЅС‚ РёР»Рё РЅРµС‚
+	int get_id_by_login(string login); // id СЌС‚РѕРіРѕ Р»РѕРіРёРЅР° (РЅРѕРјРµСЂ)
 
 	bool containsName(string name);
 
-	bool containsPassword(string password);
-
-	Account get_acc(); //TO DO
+	Account operator[](int i) { return data[i]; }
 
 protected:
-	int count; // количество имиеющихся аккаунтов
+	int count; // РєРѕР»РёС‡РµСЃС‚РІРѕ РёРјРёРµСЋС‰РёС…СЃСЏ Р°РєРєР°СѓРЅС‚РѕРІ
 	vector<Account> data;
 };
 
