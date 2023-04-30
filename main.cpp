@@ -4,179 +4,232 @@
 
 //using namespace std;
 
+struct for_menu // СЃС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ РІРѕР·РІСЂР°С‚Р° Р·РЅР°С‡РµРЅРёСЏ РёР· РјРµРЅСЋ
+{
+	int id = -1;  // РјС‹ Р·РЅР°РµРј РєС‚Рѕ Р·Р°Р»РѕРіРёРЅРёР»СЃСЏ 
+	bool res = false; // СЌС‚Рѕ РµСЃР»Рё РѕС€РёР±РєР° РІС‹Р±РѕСЂР° \ РїСЂРµРІС‹С€РµРЅРѕ РєРѕР»РёС‡РµСЃС‚РІРѕ РІРІРѕРґРѕРІ \ РїСЂРѕСЃС‚Рѕ РІС‹С…РѕРґ
+};
+
+for_menu login_menu(Accounts_data &accs);
+bool chat_menu(Accounts_data& accs, int id);
+
+
+
 int main()
 {
 	setlocale(LC_ALL, "rus");
 
-	//Класс аккаунтЫ
-	Accounts_data accs; // тут будут храниться ВСЕ логины и их пароли
-	/*cout << "Count accs: " << accs.count_acc() << endl; //вывод количества имеющихся логинов
+	Accounts_data accs; // С‚СѓС‚ Р±СѓРґСѓС‚ С…СЂР°РЅРёС‚СЊСЃСЏ Р’РЎР• Р»РѕРіРёРЅС‹ Рё РёС… РїР°СЂРѕР»Рё
 
-	Account first_acc("Evgen", "strelok", "QWE123rt"); // зарегали первый акк
-	Account second_acc("Leonid", "voin", "asdf453");	// зарегали второй акк
+	cout << "---------------------------------------" << endl;
+	cout << "	Welcome to the chat app! " << endl;
+	cout << "---------------------------------------\n" << endl;
 
-	cout << first_acc.get_login() << endl;				//вывод логина из первого аккаунта
-
-	accs.add_acc(first_acc);		//добавили первый акк в базу
-	accs.add_acc(second_acc);		//добавили второй акк в базу
-
-	cout << "Count accs: " << accs.count_acc() << endl;	//вывод количества имеющихся логинов
-
-	if (accs.contains("voin")) cout << "Login is busy\n";		//тест проверки на занятость логина
-	else cout << "Login is free\n";
-
-	if (accs.contains("strelok")) cout << "Login is busy\n";	//тест проверки на занятость логина
-	else cout << "Login is free\n";
-
-	if (accs.contains("voin123")) cout << "Login is busy\n";	//тест проверки на занятость логина
-	else cout << "Login is free\n";
-
-	//Класс данные чата
-	//TO DO
-	*/
-	string login, password, name; //данные аккаунта(вынесены за цикл для того, чтобы видеть их в любой части кода)
-
-
-	cout << "Добро пожаловать в итоговый проект первого модуля, приложение чат!" << endl;
 	while (true)
 	{
-		cout << "Выберите один из вариантов" << endl
-			<< "1 - зарегестрироваться" << endl
-			<< "2 - войти в аккаунт" << endl
-			<< "q - чтобы выйти из программы" << endl;
-		char choice;
-		cin >> choice;
-		if (choice == 'q')
+		// Р—Р°РїСѓСЃРє РјРµРЅСЋ Р»РѕРіРёРЅР°
+		for_menu rezult = login_menu(accs);  // РІ РїРµСЂРµРјРµРЅРЅРѕР№ rezult С…СЂР°РЅРёРј id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ, РєРѕС‚РѕСЂС‹Р№ Р·Р°Р»РѕРіРёРЅРёР»СЃСЏ СѓСЃРїРµС€РЅРѕ
+		if (!rezult.res) break;	// РµСЃР»Рё РІС‹С€Р»Рё РёР· С„СѓРЅРєС†РёРё СЃ false, С‚Рѕ РІС‹Р№С‚Рё РёР· С†РёРєР»Р° while Рё Р·Р°РІРµСЂС€РёС‚СЊ РїСЂРѕРіСѓ
+
+		// Р—Р°РїСѓСЃРє РјРµРЅСЋ С‡Р°С‚Р°
+		if (chat_menu(accs, rezult.id)) break;		// РµСЃР»Рё РІС‹С€Р»Рё РёР· С„СѓРЅРєС†РёРё СЃ false, С‚Рѕ РІС‹Р№С‚Рё РёР· С†РёРєР»Р° while
+
+	}
+
+	return 0;
+}
+
+for_menu login_menu(Accounts_data& accs)
+{
+	for_menu rezult;
+
+	cout	<< " Make a choice: " << endl
+			<< "	1 - registration" << endl
+			<< "	2 - log in to your account" << endl
+			<< "	q - exit the chat " << endl;
+	
+	char choice;
+	cin >> choice;
+	if (choice == 'q')
+	{
+		return rezult;
+	}
+
+	switch (choice)
+	{
+	case '1':
 		{
-			break;
-		}
-		switch (choice)
-		{
-		case '1':
+			Account acc; 
+			string tmp;
+
 			while (true)
 			{
-				cout << "Введите логин для вашего аккаунта: " << endl;
-				cin >> login;
-				if (accs.containsLog(login))         //тест проверки на занятость логина
+				cout << "Enter the login for your account: " << endl;
+				cin >> tmp;
+				if (accs.containsLog(tmp))         //С‚РµСЃС‚ РїСЂРѕРІРµСЂРєРё РЅР° Р·Р°РЅСЏС‚РѕСЃС‚СЊ Р»РѕРіРёРЅР°
 				{
 					cout << "Login is busy\n";
 				}
 				else
 				{
-					cout << "Login is free\n";
+					acc.set_login(tmp);
+					cout << "Login created!\n";
 					break;
 				}
 			}
-				cout << "Введите пароль для вашего аккаунта: " << endl;
-				cin >> password;
-				while (true)
-				{
-					cout << "Придумайте имя для вашего аккаунта" << endl;  
-					cin >> name;
-					if (accs.containsName(name))         //тест проверки на занятость name
-					{
-						cout << "Name is busy\n";
-					}
-					else
-					{
-						cout << "Name is free\n";
-						break;
-					}
-				}
-				//Account first_acc(name, login, password);       //надо попробовать уместить это здесь
-				//accs.add_acc(first_acc); //занесли созданный аккаунт
-			break;
-		case '2':
+
+			cout << "Enter the password for your account: " << endl;
 			while (true)
 			{
-				cout << "Введите логин для вашего аккаунта: " << endl;
-				cin >> login;
-				if (accs.containsLog(login))      /*тест, проверяющий наличие логина в базе, цикл замкнут и если аккаунтов ещё нет,
-					то надо придумать как этот цикл закрыть*/
+				cin >> tmp;
+				if (tmp.size() > 5) // РїР°СЂРѕР»СЊ РґР»РёРЅРµРµ 5 СЃРёРјРІРѕР»РѕРІ
 				{
+					acc.set_password(tmp);
 					break;
 				}
 				else
 				{
-					cout << "Wrong login\n";
+					cout << "Enter a password longer than 5 symbols!" << endl;
 				}
 			}
+
 			while (true)
 			{
-				cout << "Введите пароль для вашего аккаунта: " << endl;
-				cin >> password;
-				if (accs.containsPassword(password))         //тест проверки на занятость логина
+				cout << "Come up with a name for your account: " << endl;
+				cin >> tmp;
+				if (accs.containsName(tmp))         //С‚РµСЃС‚ РїСЂРѕРІРµСЂРєРё РЅР° Р·Р°РЅСЏС‚РѕСЃС‚СЊ name
 				{
+					cout << "Name is busy\n";
+				}
+				else
+				{
+					acc.set_name(tmp);
+					cout << "Account created!\n";
+					break;
+				}
+			}
+
+			accs.add_acc(acc); //Р·Р°РЅРµСЃР»Рё СЃРѕР·РґР°РЅРЅС‹Р№ Р°РєРєР°СѓРЅС‚
+
+			//break; // С‚СѓС‚ Р±СЂСЌР№Рє РЅРµ РЅСѓР¶РµРЅ, РјС‹ Р¶Рµ СЃРѕР·РґР°Р»Рё Р°РєРєР°СѓРЅС‚, С‚РµРїРµСЂСЊ РёРґРµРј Р»РѕРіРёРЅРёС‚СЊСЃСЏ, С‚.Рµ. РІ РЅРµРєСЃС‚ РєРµР№Р·
+		}
+	case '2':
+		{
+			if (accs.count_acc() == 0) // РµСЃР»Рё РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ Р°РєРєР°СѓРЅС‚Р°, С‚Рѕ РїРѕРїСЂРѕСЃРёРј РїРµСЂРµР·Р°РїСѓСЃС‚РёС‚СЊ С‡Р°С‚ Рё СЃРѕР·РґР°С‚СЊ Р°РєРєР°СѓРЅС‚
+			{
+				cout << "There is not a single registration! Re-enter the chat and create an account!" << endl;
+				return rezult; // Р·Р°РєСЂС‹Р»Рё С‡Р°С‚, Р°РЅР°Р»РѕРі РІРІРѕРґР° q
+			}
+
+			string tmp;
+			int attempt = 2;
+			int id;
+
+			while (true)
+			{
+				cout << "Enter login: " << endl;
+				cin >> tmp;
+				if (accs.containsLog(tmp))      
+				{
+					id = accs.get_id_by_login(tmp);
+					cout << "Hello, " << accs[id].get_name() << "!\n Enter password: \n";
 					break;
 				}
 				else
 				{
-					cout << "Wrong password\n";
+					if (attempt == 0) return rezult;
+					cout << "Wrong login! There are still attempts left: " << attempt-- << endl;
 				}
 			}
-			//name = _name; // приравниваем имя аккаунта, которое будет отображаться в программе к имени акканта(для строчки кода,
-			//которая отображает имя аккаунта, в который мы вошли)
-			break;
-		default:
-			cout << "Неправильно указан оператор" << endl;
+
+			attempt = 2;
+			while (true)
+			{
+				cin >> tmp;
+				if (tmp == accs[id].get_password())
+				{
+					rezult.id = id;
+					rezult.res = true;
+					cout << "Authentication was successful!" << endl;
+					break;
+				}
+				else
+				{
+					if (attempt == 0) return rezult;
+					cout << "Wrong password! There are still attempts left: " << attempt-- << endl;
+				}
+			}
 			break;
 		}
-		cout << "Вы вошли в аккаунт " << name << endl;
-
-
-		Account first_acc(name, login, password);     /*создали класс для созданного аккаунта(вообще это должно быть после первого кейса,
-		но если засунуть это туда сразу, то выдаёт ошибку, но работает и так, просто выглядит как-то неправильно*/
-
-
-		accs.add_acc(first_acc); //занесли созданный аккаунт
-
-		while (true)
+	default:
 		{
-			cout << "Выберите одно из перечисленных действий: " << endl
-				<< "1 - посмотреть полученные сообщения" << endl
-				<< "2 - посмотреть отправленные сообщения" << endl
-				<< "3 - написать новое письмо" << endl
-				<< "q - чтобы выйти из аккаунта" << endl;
-			char choice2;
-			cin >> choice2;
-			if (choice2 == 'q')
+			cout << "Wrong choice" << endl;
+			break; 
+		}
+	}
+
+	return rezult;
+}
+
+
+bool chat_menu(Accounts_data& accs, int id) // РќР•РћР‘РҐРћР”РРњРћ РЎР”Р•Р›РђРўР¬!
+{
+	while (true)
+	{
+		cout	<< "Р’С‹Р±РµСЂРёС‚Рµ РѕРґРЅРѕ РёР· РїРµСЂРµС‡РёСЃР»РµРЅРЅС‹С… РґРµР№СЃС‚РІРёР№: " << endl
+				<< "1 - РїРѕСЃРјРѕС‚СЂРµС‚СЊ РїРѕР»СѓС‡РµРЅРЅС‹Рµ СЃРѕРѕР±С‰РµРЅРёСЏ" << endl
+				<< "2 - РїРѕСЃРјРѕС‚СЂРµС‚СЊ РѕС‚РїСЂР°РІР»РµРЅРЅС‹Рµ СЃРѕРѕР±С‰РµРЅРёСЏ" << endl
+				<< "3 - РЅР°РїРёСЃР°С‚СЊ РЅРѕРІРѕРµ РїРёСЃСЊРјРѕ" << endl
+				<< "q - С‡С‚РѕР±С‹ РІС‹Р№С‚Рё РёР· Р°РєРєР°СѓРЅС‚Р°" << endl;
+		
+		char choice;
+		cin >> choice;
+		if (choice == 'q')
+		{
+			cout << "Р’С‹ РІС‹С€Р»Рё РёР· Р°РєРєР°СѓРЅС‚Р° " << accs[id].get_name() << endl;
+			return true;
+			//break;
+		}
+
+		switch (choice)
+		{
+		case '1':
 			{
-				cout << "Вы вышли из аккаунта " << name << endl;
+				cout << "Р’С‹ РїРѕР»СѓС‡РёР»Рё СЃР»РµРґСѓСЋС‰РёРµ СЃРѕРѕР±С‰РµРЅРёСЏ: " << endl;
+
+				break; 
+			}
+		case '2':
+			{
+				cout << "Р’С‹ РѕС‚РїСЂР°РІРёР»Рё СЃР»РµРґСѓСЋС‰РёРµ СЃРѕРѕР±С‰РµРЅРёСЏ: " << endl;
 				break;
 			}
-			switch (choice2)
+		case '3':
 			{
-			case '1':
-				cout << "Вы получили следующие сообщения: " << endl;
-
-				break;
-			case '2':
-				cout << "Вы отправили следующие сообщения: " << endl;
-				break;
-			case '3':
 				string receiver;
 				while (true)
 				{
-					cout << "Введите имя пользователя, которому вы хотите написать: " << endl;
+					cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ, РєРѕС‚РѕСЂРѕРјСѓ РІС‹ С…РѕС‚РёС‚Рµ РЅР°РїРёСЃР°С‚СЊ: " << endl;
 					cin >> receiver;
-					if (accs.containsName(receiver))         //тест проверки на занятость name
+					if (accs.containsName(receiver))         //С‚РµСЃС‚ РїСЂРѕРІРµСЂРєРё РЅР° Р·Р°РЅСЏС‚РѕСЃС‚СЊ name
 					{
-						//добавить реализацию функции отправки сообщения
+						//РґРѕР±Р°РІРёС‚СЊ СЂРµР°Р»РёР·Р°С†РёСЋ С„СѓРЅРєС†РёРё РѕС‚РїСЂР°РІРєРё СЃРѕРѕР±С‰РµРЅРёСЏ
 						break;
 					}
 					else
 					{
-						cout << "пользователь с таким именем не найден\n";
+						cout << "РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃ С‚Р°РєРёРј РёРјРµРЅРµРј РЅРµ РЅР°Р№РґРµРЅ\n";
 					}
 				}
 				break;
-			default:
-				cout << "Неправильно указан оператор" << endl;
+			}
+		default:
+			{
+				cout << "РќРµРїСЂР°РІРёР»СЊРЅРѕ СѓРєР°Р·Р°РЅ РѕРїРµСЂР°С‚РѕСЂ" << endl;
 				break;
 			}
 		}
-		
 	}
 
-	return 0;
+	return true;
 }
