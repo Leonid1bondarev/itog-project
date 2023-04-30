@@ -17,14 +17,32 @@ public:
 	string get_login() { return _login; }
 	string get_password() { return _password; }
 
-	void set_name(string name)			{ _name = name; }
-	void set_login(string login)		{ _login = login; }
-	void set_password(string password)	{ _password = password; }
+	void set_name(string name) { _name = name; }
+	void set_login(string login) { _login = login; }
+	void set_password(string password) { _password = password; }
+
+	string srm(); //func show received messages
+	string ssm();
+
+	void add_rm(string message)
+	{
+		crm++;
+		received_message.push_back(message);
+	}
+	void add_sm(string message)
+	{
+		csm++;
+		sent_message.push_back(message);
+	}
 
 protected:
 	string _name;
 	string _login;
 	string _password;
+	vector<string> received_message;
+	int crm = 0; //counter received messages
+	vector<string> sent_message;
+	int csm = 0; //counter sent messages
 };
 
 class Accounts_data
@@ -43,15 +61,15 @@ public:
 		data.push_back(new_acc);
 	}
 
-	bool containsLog(string login); // РїСЂРѕРІРµСЂРєР°, Р·Р°СЂРµРіР°РЅ С‚Р°РєРѕР№ Р°РєРєР°СѓРЅС‚ РёР»Рё РЅРµС‚
-	int get_id_by_login(string login); // id СЌС‚РѕРіРѕ Р»РѕРіРёРЅР° (РЅРѕРјРµСЂ)
+	bool containsLog(string login); // проверка, зареган такой аккаунт или нет
+	int get_id_by_login(string login); // id этого логина (номер)
 
 	bool containsName(string name);
 
 	Account operator[](int i) { return data[i]; }
 
 protected:
-	int count; // РєРѕР»РёС‡РµСЃС‚РІРѕ РёРјРёРµСЋС‰РёС…СЃСЏ Р°РєРєР°СѓРЅС‚РѕРІ
+	int count; // количество имиеющихся аккаунтов
 	vector<Account> data;
 };
 

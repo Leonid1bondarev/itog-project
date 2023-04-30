@@ -1,6 +1,6 @@
 #include "Acc.h"
 
-bool Accounts_data::containsLog(string login) //РјРѕР¶РЅРѕ СЃСЋРґР° РґРѕР±Р°РІРёС‚СЊ РІР»РѕР¶РµРЅРЅС‹Р№ С†РёРєР», С‡С‚РѕР±С‹ РІ РєР°Р¶РґРѕР№ РёС‚С‚РµСЂР°С†РёРё С†РёРєР»Р° РїСЂРѕРІРµСЂСЏС‚СЊ РµС‰С‘ Рё РёРјСЏ
+bool Accounts_data::containsLog(string login) //можно сюда добавить вложенный цикл, чтобы в каждой иттерации цикла проверять ещё и имя
 {
 	bool rezult = false;
 
@@ -43,3 +43,18 @@ int Accounts_data::get_id_by_login(string login)
 	return (-1);
 }
 
+string Account::srm()
+{
+		for (int i = 0; i < crm; i++)
+		{
+			cout << received_message[i] << endl;
+		}
+}
+
+string Account::ssm()
+{
+	for (int i = 0; i < csm; i++)
+	{
+		cout << sent_message[i] << endl;
+	}
+}
