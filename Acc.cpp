@@ -1,15 +1,5 @@
 #include "Acc.h"
 
-Account::Account(string name, string login, string password) : _name(name), _login(login), _password(password)
-{
-
-}
-
-Account::Account(string login, string password) : _login(login), _password(password)
-{
-
-}
-
 bool Accounts_data::containsLog(string login) //можно сюда добавить вложенный цикл, чтобы в каждой иттерации цикла проверять ещё и имя
 {
 	bool rezult = false;
@@ -40,17 +30,31 @@ bool Accounts_data::containsName(string name)
 	return rezult;
 }
 
-bool Accounts_data::containsPassword(string password)
+int Accounts_data::get_id_by_login(string login)
 {
-	bool rezult = false;
-
 	for (int i = 0; i < count; ++i)
 	{
-		if (data[i].get_password() == password)
+		if (data[i].get_login() == login)
 		{
-			rezult = true;
-			break;
+			return i;
 		}
 	}
-	return rezult;
+
+	return (-1);
+}
+
+string Account::srm()
+{
+		for (int i = 0; i < crm; i++)
+		{
+			cout << received_message[i] << endl;
+		}
+}
+
+string Account::ssm()
+{
+	for (int i = 0; i < csm; i++)
+	{
+		cout << sent_message[i] << endl;
+	}
 }
