@@ -4,10 +4,10 @@
 
 //using namespace std;
 
-struct for_menu // структура для возврата значения из меню
+struct for_menu // Г±ГІГ°ГіГЄГІГіГ°Г  Г¤Г«Гї ГўГ®Г§ГўГ°Г ГІГ  Г§Г­Г Г·ГҐГ­ГЁГї ГЁГ§ Г¬ГҐГ­Гѕ
 {
-	int id = -1;  // мы знаем кто залогинился 
-	bool res = false; // это если ошибка выбора \ превышено количество вводов \ просто выход
+	int id = -1;  // Г¬Г» Г§Г­Г ГҐГ¬ ГЄГІГ® Г§Г Г«Г®ГЈГЁГ­ГЁГ«Г±Гї 
+	bool res = false; // ГЅГІГ® ГҐГ±Г«ГЁ Г®ГёГЁГЎГЄГ  ГўГ»ГЎГ®Г°Г  \ ГЇГ°ГҐГўГ»ГёГҐГ­Г® ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГўГўГ®Г¤Г®Гў \ ГЇГ°Г®Г±ГІГ® ГўГ»ГµГ®Г¤
 };
 
 for_menu login_menu(Accounts_data& accs);
@@ -19,7 +19,7 @@ int main()
 {
 	setlocale(LC_ALL, "rus");
 
-	Accounts_data accs; // тут будут храниться ВСЕ логины и их пароли
+	Accounts_data accs; // ГІГіГІ ГЎГіГ¤ГіГІ ГµГ°Г Г­ГЁГІГјГ±Гї Г‚Г‘Г… Г«Г®ГЈГЁГ­Г» ГЁ ГЁГµ ГЇГ Г°Г®Г«ГЁ
 
 	cout << "---------------------------------------" << endl;
 	cout << "	Welcome to the chat app! " << endl;
@@ -27,12 +27,12 @@ int main()
 
 	while (true)
 	{
-		// Запуск меню логина
-		for_menu rezult = login_menu(accs);  // в переменной rezult храним id пользователя, который залогинился успешно
-		if (!rezult.res) break;	// если вышли из функции с false, то выйти из цикла while и завершить прогу
+		// Г‡Г ГЇГіГ±ГЄ Г¬ГҐГ­Гѕ Г«Г®ГЈГЁГ­Г 
+		for_menu rezult = login_menu(accs);  // Гў ГЇГҐГ°ГҐГ¬ГҐГ­Г­Г®Г© rezult ГµГ°Г Г­ГЁГ¬ id ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гї, ГЄГ®ГІГ®Г°Г»Г© Г§Г Г«Г®ГЈГЁГ­ГЁГ«Г±Гї ГіГ±ГЇГҐГёГ­Г®
+		if (!rezult.res) break;	// ГҐГ±Г«ГЁ ГўГ»ГёГ«ГЁ ГЁГ§ ГґГіГ­ГЄГ¶ГЁГЁ Г± false, ГІГ® ГўГ»Г©ГІГЁ ГЁГ§ Г¶ГЁГЄГ«Г  while ГЁ Г§Г ГўГҐГ°ГёГЁГІГј ГЇГ°Г®ГЈГі
 
-		// Запуск меню чата
-		if (chat_menu(accs, rezult.id)) break;		// если вышли из функции с false, то выйти из цикла while
+		// Г‡Г ГЇГіГ±ГЄ Г¬ГҐГ­Гѕ Г·Г ГІГ 
+		if (chat_menu(accs, rezult.id)) break;		// ГҐГ±Г«ГЁ ГўГ»ГёГ«ГЁ ГЁГ§ ГґГіГ­ГЄГ¶ГЁГЁ Г± false, ГІГ® ГўГ»Г©ГІГЁ ГЁГ§ Г¶ГЁГЄГ«Г  while
 
 	}
 
@@ -66,7 +66,7 @@ for_menu login_menu(Accounts_data& accs)
 		{
 			cout << "Enter the login for your account: " << endl;
 			cin >> tmp;
-			if (accs.containsLog(tmp))         //тест проверки на занятость логина
+			if (accs.containsLog(tmp))         //ГІГҐГ±ГІ ГЇГ°Г®ГўГҐГ°ГЄГЁ Г­Г  Г§Г Г­ГїГІГ®Г±ГІГј Г«Г®ГЈГЁГ­Г 
 			{
 				cout << "Login is busy\n";
 			}
@@ -82,7 +82,7 @@ for_menu login_menu(Accounts_data& accs)
 		while (true)
 		{
 			cin >> tmp;
-			if (tmp.size() > 5) // пароль длинее 5 символов
+			if (tmp.size() > 5) // ГЇГ Г°Г®Г«Гј Г¤Г«ГЁГ­ГҐГҐ 5 Г±ГЁГ¬ГўГ®Г«Г®Гў
 			{
 				acc.set_password(tmp);
 				break;
@@ -97,28 +97,29 @@ for_menu login_menu(Accounts_data& accs)
 		{
 			cout << "Come up with a name for your account: " << endl;
 			cin >> tmp;
-			if (accs.containsName(tmp))         //тест проверки на занятость name
+			if (accs.containsName(tmp))         //ГІГҐГ±ГІ ГЇГ°Г®ГўГҐГ°ГЄГЁ Г­Г  Г§Г Г­ГїГІГ®Г±ГІГј name
 			{
 				cout << "Name is busy\n";
 			}
 			else
 			{
 				acc.set_name(tmp);
+				acc.set_my_id(accs.count_acc());
 				cout << "Account created!\n";
 				break;
 			}
 		}
 
-		accs.add_acc(acc); //занесли созданный аккаунт
+		accs.add_acc(acc); //Г§Г Г­ГҐГ±Г«ГЁ Г±Г®Г§Г¤Г Г­Г­Г»Г© Г ГЄГЄГ ГіГ­ГІ
 
-		//break; // тут брэйк не нужен, мы же создали аккаунт, теперь идем логиниться, т.е. в некст кейз
+		//break; // ГІГіГІ ГЎГ°ГЅГ©ГЄ Г­ГҐ Г­ГіГ¦ГҐГ­, Г¬Г» Г¦ГҐ Г±Г®Г§Г¤Г Г«ГЁ Г ГЄГЄГ ГіГ­ГІ, ГІГҐГЇГҐГ°Гј ГЁГ¤ГҐГ¬ Г«Г®ГЈГЁГ­ГЁГІГјГ±Гї, ГІ.ГҐ. Гў Г­ГҐГЄГ±ГІ ГЄГҐГ©Г§
 	}
 	case '2':
 	{
-		if (accs.count_acc() == 0) // если нет ни одного аккаунта, то попросим перезапустить чат и создать аккаунт
+		if (accs.count_acc() == 0) // ГҐГ±Г«ГЁ Г­ГҐГІ Г­ГЁ Г®Г¤Г­Г®ГЈГ® Г ГЄГЄГ ГіГ­ГІГ , ГІГ® ГЇГ®ГЇГ°Г®Г±ГЁГ¬ ГЇГҐГ°ГҐГ§Г ГЇГіГ±ГІГЁГІГј Г·Г ГІ ГЁ Г±Г®Г§Г¤Г ГІГј Г ГЄГЄГ ГіГ­ГІ
 		{
 			cout << "There is not a single registration! Re-enter the chat and create an account!" << endl;
-			return rezult; // закрыли чат, аналог ввода q
+			return rezult; // Г§Г ГЄГ°Г»Г«ГЁ Г·Г ГІ, Г Г­Г Г«Г®ГЈ ГўГўГ®Г¤Г  q
 		}
 
 		string tmp;
@@ -162,17 +163,17 @@ for_menu login_menu(Accounts_data& accs)
 		break;
 	}
 	default:
-	{
-		cout << "Wrong choice" << endl;
-		break;
-	}
+		{
+			cout << "Wrong choice" << endl;
+			break;
+		}
 	}
 
 	return rezult;
 }
 
 
-bool chat_menu(Accounts_data& accs, int id) // НЕОБХОДИМО СДЕЛАТЬ!
+bool chat_menu(Accounts_data& accs, int id) // ГЌГ…ГЋГЃГ•ГЋГ„Г€ГЊГЋ Г‘Г„Г…Г‹ГЂГ’Гњ!
 {
 	while (true)
 	{
@@ -197,6 +198,7 @@ bool chat_menu(Accounts_data& accs, int id) // НЕОБХОДИМО СДЕЛАТЬ!
 		{
 
 			cout << "You have received the following messages: " << endl;
+			accs[id].print_recv_massage();
 			//put srm
 			break;
 		}
@@ -211,11 +213,31 @@ bool chat_menu(Accounts_data& accs, int id) // НЕОБХОДИМО СДЕЛАТЬ!
 			string receiver;
 			while (true)
 			{
-				cout << "Enter the username you want to write to: " << endl;
+				cout << "Enter the username you want to write to: " << endl; // РµСЃР»Рё РјС‹ РѕС‚РїСЂР°РІР»СЏРµРј РїРѕ РёРјРµРЅРё, С‚Рѕ РЅР°Рј РЅСѓР¶РЅРѕ РїСЂРµРґСѓСЃРјРѕС‚СЂРµС‚СЊ С‚Рѕ, С‡С‚Рѕ РѕРЅРё РЅРµ РїРѕРІС‚РѕСЂСЏСЋС‚СЃСЏ
 				cin >> receiver;
 				if (accs.containsName(receiver))         //occupancy test name
 				{
 					//add add_sm for this acc and add_rm for reciever
+					string msg;
+					cout << "Enter you massage: " << endl; // РµСЃР»Рё РјС‹ РѕС‚РїСЂР°РІР»СЏРµРј РїРѕ РёРјРµРЅРё, С‚Рѕ РЅР°Рј РЅСѓР¶РЅРѕ РїСЂРµРґСѓСЃРјРѕС‚СЂРµС‚СЊ С‚Рѕ, С‡С‚Рѕ РѕРЅРё РЅРµ РїРѕРІС‚РѕСЂСЏСЋС‚СЃСЏ
+					cin >> msg;
+
+					// СѓР·РЅР°С‚СЊ Р°Р№РґРё
+					int id_recver = accs.get_id_by_name(receiver);
+
+					// РѕС‚Р»Р°РґРєР°
+					//Message tmp1(msg, id, id_recver); // РґР»СЏ СЃРµРЅРґРµСЂР°
+					//Message tmp2(msg, id_recver, id); // РґР»СЏ СЂРµРєРІРµСЂР°
+					//
+					//accs[id].send_mess.push_back(tmp1);
+					//accs[id_recver].recv_mess.push_back(tmp2);
+
+					// СЃРѕС…СЂР°РЅСЏРµРј РІ РїСЂРёРЅСЏС‚С‹С… Сѓ РїСЂРёРЅРёРјР°СЋС‰РµРіРѕ
+					accs[id_recver].set_recv_mess(msg, id);
+					
+					// СЃРѕС…СЂР°РЅСЏРµРј РІ РѕС‚РїСЂР°РІР»РµРЅРЅС‹С… Сѓ РѕС‚РїСЂР°РІР»СЏСЋС‰РµРіРѕ
+					accs[id].set_send_mess(msg, id_recver);
+
 					break;
 				}
 				else
