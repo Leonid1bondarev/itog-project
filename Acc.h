@@ -6,10 +6,24 @@
 
 using namespace std;
 
+class Message
+{
+public:
+	Message(string mess, int id_send, int id_recv) : _mess(mess), _id_send(id_send), _id_recv(id_recv) {}
+
+	string get_mess() { return _mess; }
+	int get_id_send() { return _id_send; }
+
+private:
+	string _mess;
+	int _id_send;
+	int _id_recv;
+};
+
 class Account
 {
 public:
-	Account() : _name(""), _login(""), _password("") {}
+	Account() : _name(""), _login(""), _password(""), my_id(-1) {}
 	//Account(string name, string login, string password);
 	//Account(string login, string password);
 
@@ -20,29 +34,43 @@ public:
 	void set_name(string name) { _name = name; }
 	void set_login(string login) { _login = login; }
 	void set_password(string password) { _password = password; }
+	void set_my_id(int id) { my_id = id; }
 
-	string srm(); //func show received messages
-	string ssm();
+	//string srm(); //func show received messages
+	//string ssm();
 
-	void add_rm(string message)
-	{
-		crm++;
-		received_message.push_back(message);
-	}
-	void add_sm(string message)
-	{
-		csm++;
-		sent_message.push_back(message);
-	}
+	//void add_rm(string message)
+	//{
+	//	crm++;
+	//	received_message.push_back(message);
+	//}
+	//void add_sm(string message)
+	//{
+	//	csm++;
+	//	sent_message.push_back(message);
+	//}
+
+	void set_recv_mess(string mess, int id_sender);
+	void set_send_mess(string mess, int id_recver);
+	//string get_recv_mess();
+
+	//void print_all_send_massage();
+	void print_recv_massage();
+
 
 protected:
+	int my_id;
 	string _name;
 	string _login;
 	string _password;
-	vector<string> received_message;
-	int crm = 0; //counter received messages
-	vector<string> sent_message;
-	int csm = 0; //counter sent messages
+
+	vector<Message> recv_mess;
+	vector<Message> send_mess;
+
+	//vector<string> received_message;
+	//int crm = 0; //counter received messages
+	//vector<string> sent_message;
+	//int csm = 0; //counter sent messages
 };
 
 class Accounts_data
@@ -61,15 +89,15 @@ public:
 		data.push_back(new_acc);
 	}
 
-	bool containsLog(string login); // проверка, зареган такой аккаунт или нет
-	int get_id_by_login(string login); // id этого логина (номер)
+	bool containsLog(string login); // ГЇГ°Г®ГўГҐГ°ГЄГ , Г§Г Г°ГҐГЈГ Г­ ГІГ ГЄГ®Г© Г ГЄГЄГ ГіГ­ГІ ГЁГ«ГЁ Г­ГҐГІ
+	int get_id_by_login(string login); // id ГЅГІГ®ГЈГ® Г«Г®ГЈГЁГ­Г  (Г­Г®Г¬ГҐГ°)
+	int get_id_by_name(string name);
 
 	bool containsName(string name);
 
-	Account operator[](int i) { return data[i]; }
+	Account& operator[](int i) { return data[i]; }
 
 protected:
-	int count; // количество имиеющихся аккаунтов
+	int count; // ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГЁГ¬ГЁГҐГѕГ№ГЁГµГ±Гї Г ГЄГЄГ ГіГ­ГІГ®Гў
 	vector<Account> data;
 };
-
