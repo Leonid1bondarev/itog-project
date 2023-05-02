@@ -1,6 +1,60 @@
 #include "Acc.h"
 
-bool Accounts_data::containsLog(string login) //можно сюда добавить вложенный цикл, чтобы в каждой иттерации цикла проверять ещё и имя
+/*void Account::set_recv_mess(string mess, int id_sender)
+{
+	Message tmp(mess, id_sender, my_id);
+	recv_mess.push_back(tmp);
+}
+
+void Account::set_send_mess(string mess, int id_recver)
+{
+	Message tmp(mess, my_id, id_recver);
+	send_mess.push_back(tmp);
+}
+
+void Account::print_all_send_massage()
+{
+	for (int i = 0; i < send_mess.size(); ++i)
+	{
+		cout << "id recipient = " << send_mess[i].get_id_recv() << "  msg: " << send_mess[i].get_mess() << endl;
+	}
+}
+
+void Account::print_recv_massage()
+{
+	for (int i = 0; i < recv_mess.size(); ++i)
+	{
+		cout << "id sender = " << recv_mess[i].get_id_send() << "  msg: " << recv_mess[i].get_mess() << endl;
+	}
+}*/
+void Account::set_recv_mess(string mess, string name_sender)
+{
+	Message tmp(mess, name_sender, _name);
+	recv_mess.push_back(tmp);
+}
+
+void Account::set_send_mess(string mess, string name_recver)
+{
+	Message tmp(mess, _name, name_recver);
+	send_mess.push_back(tmp);
+}
+
+void Account::print_all_send_massage()
+{
+	for (int i = 0; i < send_mess.size(); ++i)
+	{
+		cout << "Name recipient = " << send_mess[i].get_name_recv() << "  msg: " << send_mess[i].get_mess() << endl;
+	}
+}
+
+void Account::print_recv_massage()
+{
+	for (int i = 0; i < recv_mess.size(); ++i)
+	{
+		cout << "Name sender = " << recv_mess[i].get_name_send() << "  msg: " << recv_mess[i].get_mess() << endl;
+	}
+}
+bool Accounts_data::containsLog(string login) //func for checking are loging already in use or no
 {
 	bool rezult = false;
 
@@ -43,18 +97,15 @@ int Accounts_data::get_id_by_login(string login)
 	return (-1);
 }
 
-string Account::srm()
+int Accounts_data::get_id_by_name(string name)
 {
-		for (int i = 0; i < crm; i++)
-		{
-			cout << received_message[i] << endl;
-		}
-}
-
-string Account::ssm()
-{
-	for (int i = 0; i < csm; i++)
+	for (int i = 0; i < count; ++i)
 	{
-		cout << sent_message[i] << endl;
+		if (data[i].get_name() == name)
+		{
+			return i;
+		}
 	}
+
+	return (-1);
 }

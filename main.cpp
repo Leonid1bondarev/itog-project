@@ -1,13 +1,11 @@
-#include <iostream>
+п»ї#include <iostream>
 
 #include "Acc.h"
 
-//using namespace std;
-
-struct for_menu // структура для возврата значения из меню
+struct for_menu // structure to return value from menu
 {
-	int id = -1;  // мы знаем кто залогинился 
-	bool res = false; // это если ошибка выбора \ превышено количество вводов \ просто выход
+	int id = -1;  // we know who logged in
+	bool res = false; // this is if selection error \ number of inputs exceeded \ just exit
 };
 
 for_menu login_menu(Accounts_data& accs);
@@ -19,7 +17,7 @@ int main()
 {
 	setlocale(LC_ALL, "rus");
 
-	Accounts_data accs; // тут будут храниться ВСЕ логины и их пароли
+	Accounts_data accs; // ALL logins and their passwords will be stored here
 
 	cout << "---------------------------------------" << endl;
 	cout << "	Welcome to the chat app! " << endl;
@@ -27,12 +25,12 @@ int main()
 
 	while (true)
 	{
-		// Запуск меню логина
-		for_menu rezult = login_menu(accs);  // в переменной rezult храним id пользователя, который залогинился успешно
-		if (!rezult.res) break;	// если вышли из функции с false, то выйти из цикла while и завершить прогу
+		// Launching the login menu
+		for_menu rezult = login_menu(accs);  // РІ РїРµСЂРµРјРµРЅРЅРѕР№ rezult С…СЂР°РЅРёРј id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ, РєРѕС‚РѕСЂС‹Р№ Р·Р°Р»РѕРіРёРЅРёР»СЃСЏ СѓСЃРїРµС€РЅРѕ
+		if (!rezult.res) break;	// if you exited the function with false, then exit the while loop and end the program
 
-		// Запуск меню чата
-		if (chat_menu(accs, rezult.id)) break;		// если вышли из функции с false, то выйти из цикла while
+		// Launching the chat menu
+		if (chat_menu(accs, rezult.id)) break;		// if you left the function with false, then exit the while loop
 
 	}
 
@@ -66,7 +64,7 @@ for_menu login_menu(Accounts_data& accs)
 		{
 			cout << "Enter the login for your account: " << endl;
 			cin >> tmp;
-			if (accs.containsLog(tmp))         //тест проверки на занятость логина
+			if (accs.containsLog(tmp))         //login busy test
 			{
 				cout << "Login is busy\n";
 			}
@@ -82,7 +80,7 @@ for_menu login_menu(Accounts_data& accs)
 		while (true)
 		{
 			cin >> tmp;
-			if (tmp.size() > 5) // пароль длинее 5 символов
+			if (tmp.size() > 5) // password longer than 5 characters
 			{
 				acc.set_password(tmp);
 				break;
@@ -97,28 +95,27 @@ for_menu login_menu(Accounts_data& accs)
 		{
 			cout << "Come up with a name for your account: " << endl;
 			cin >> tmp;
-			if (accs.containsName(tmp))         //тест проверки на занятость name
+			if (accs.containsName(tmp))         //occupancy test name
 			{
 				cout << "Name is busy\n";
 			}
 			else
 			{
 				acc.set_name(tmp);
+				acc.set_my_id(accs.count_acc());
 				cout << "Account created!\n";
 				break;
 			}
 		}
 
-		accs.add_acc(acc); //занесли созданный аккаунт
-
-		//break; // тут брэйк не нужен, мы же создали аккаунт, теперь идем логиниться, т.е. в некст кейз
+		accs.add_acc(acc); //added the created account
 	}
 	case '2':
 	{
-		if (accs.count_acc() == 0) // если нет ни одного аккаунта, то попросим перезапустить чат и создать аккаунт
+		if (accs.count_acc() == 0) // if there is no account, then we will ask you to restart the chat and create an account
 		{
 			cout << "There is not a single registration! Re-enter the chat and create an account!" << endl;
-			return rezult; // закрыли чат, аналог ввода q
+			return rezult; // closed the chat, analog input q
 		}
 
 		string tmp;
@@ -172,7 +169,7 @@ for_menu login_menu(Accounts_data& accs)
 }
 
 
-bool chat_menu(Accounts_data& accs, int id) // НЕОБХОДИМО СДЕЛАТЬ!
+bool chat_menu(Accounts_data& accs, int id) // ГЌГ…ГЋГЃГ•ГЋГ„Г€ГЊГЋ Г‘Г„Г…Г‹ГЂГ’Гњ!
 {
 	while (true)
 	{
@@ -180,6 +177,7 @@ bool chat_menu(Accounts_data& accs, int id) // НЕОБХОДИМО СДЕЛАТЬ!
 			<< "1 - View received messages " << endl
 			<< "2 - View sent messages " << endl
 			<< "3 - Write a new letter " << endl
+			<< "4 - Write a new letter to all members of chat " << endl
 			<< "q - Sign out" << endl;
 
 		char choice;
@@ -188,7 +186,6 @@ bool chat_menu(Accounts_data& accs, int id) // НЕОБХОДИМО СДЕЛАТЬ!
 		{
 			cout << "You are logged out " << accs[id].get_name() << endl;
 			return false;
-			//break;
 		}
 
 		switch (choice)
@@ -197,13 +194,13 @@ bool chat_menu(Accounts_data& accs, int id) // НЕОБХОДИМО СДЕЛАТЬ!
 		{
 
 			cout << "You have received the following messages: " << endl;
-			//put srm
+			accs[id].print_recv_massage();
 			break;
 		}
 		case '2':
 		{
 			cout << "You sent the following messages: " << endl;
-			//put ssm
+			accs[id].print_all_send_massage();
 			break;
 		}
 		case '3':
@@ -211,17 +208,46 @@ bool chat_menu(Accounts_data& accs, int id) // НЕОБХОДИМО СДЕЛАТЬ!
 			string receiver;
 			while (true)
 			{
-				cout << "Enter the username you want to write to: " << endl;
+				cout << "Enter the username you want to write to: " << endl; // user names and logins are not repeated, so we can send either by login or by account name (we send by name)
 				cin >> receiver;
 				if (accs.containsName(receiver))         //occupancy test name
 				{
-					//add add_sm for this acc and add_rm for reciever
+					string msg; //message
+					cout << "Enter you massage: " << endl;
+					getline(cin, msg);
+					getline(cin, msg);  //if write "getline" only one time it's working incorrectly(displays all text except the first word)
+
+					// find out id
+					int id_recver = accs.get_id_by_name(receiver);
+
+					// save in received from the recipient
+					accs[id_recver].set_recv_mess(msg, accs[id].get_name());
+
+					// save in sent from the sender
+					accs[id].set_send_mess(msg, receiver);
+
 					break;
 				}
 				else
 				{
 					cout << "user with this name not found\n";
 				}
+			}
+			break;
+		}
+		case '4':
+		{
+			string msg; //message
+			cout << "Enter you massage: " << endl;
+			getline(cin, msg);
+			getline(cin, msg);
+			for (int i = 0; i < accs.count_acc(); i++) //entering the message into the database for each recipient
+			{
+				accs[i].set_recv_mess(msg, accs[id].get_name());
+			}
+			for (int i = 0; i < accs.count_acc(); i++) //entering the message into the database for sender
+			{
+				accs[id].set_send_mess(msg, accs[i].get_name());
 			}
 			break;
 		}
