@@ -1,6 +1,6 @@
 #include "Acc.h"
 
-bool Accounts_data::containsLog(string login) //можно сюда добавить вложенный цикл, чтобы в каждой иттерации цикла проверять ещё и имя
+bool Accounts_data::containsLog(string login) //Г¬Г®Г¦Г­Г® Г±ГѕГ¤Г  Г¤Г®ГЎГ ГўГЁГІГј ГўГ«Г®Г¦ГҐГ­Г­Г»Г© Г¶ГЁГЄГ«, Г·ГІГ®ГЎГ» Гў ГЄГ Г¦Г¤Г®Г© ГЁГІГІГҐГ°Г Г¶ГЁГЁ Г¶ГЁГЄГ«Г  ГЇГ°Г®ГўГҐГ°ГїГІГј ГҐГ№Вё ГЁ ГЁГ¬Гї
 {
 	bool rezult = false;
 
@@ -43,18 +43,55 @@ int Accounts_data::get_id_by_login(string login)
 	return (-1);
 }
 
-string Account::srm()
+int Accounts_data::get_id_by_name(string name)
 {
-		for (int i = 0; i < crm; i++)
+	for (int i = 0; i < count; ++i)
+	{
+		if (data[i].get_name() == name)
 		{
-			cout << received_message[i] << endl;
+			return i;
 		}
+	}
+
+	return (-1);
 }
 
-string Account::ssm()
+void Account::set_recv_mess(string mess, int id_sender)
 {
-	for (int i = 0; i < csm; i++)
+	Message tmp(mess, id_sender, my_id);
+	recv_mess.push_back(tmp);
+}
+
+void Account::set_send_mess(string mess, int id_recver)
+{
+	Message tmp(mess, my_id, id_recver);
+	send_mess.push_back(tmp);
+}
+
+void Account::print_recv_massage()
+{
+	for (int i = 0; i < recv_mess.size(); ++i)
 	{
-		cout << sent_message[i] << endl;
+		cout << "id sender = " << recv_mess[i].get_id_send() << "  msg: " << recv_mess[i].get_mess() << endl;
 	}
 }
+
+//string Account::srm()
+//{
+//	for (int i = 0; i < crm; i++)
+//	{
+//		cout << received_message[i] << endl;
+//	}
+//
+//	return "AAAA"; //Р·Р°С‚С‹С‡РєР°
+//}
+//
+//string Account::ssm()
+//{
+//	for (int i = 0; i < csm; i++)
+//	{
+//		cout << sent_message[i] << endl;
+//	}
+//
+//	return "AAAA"; //Р·Р°С‚С‹С‡РєР°
+//}
