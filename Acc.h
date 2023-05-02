@@ -24,6 +24,7 @@ private:
 	//int _id_recv;
 	string _name_send;
 	string _name_recv;
+
 };
 
 class Account
@@ -58,6 +59,7 @@ protected:
 
 	vector<Message> recv_mess;
 	vector<Message> send_mess;
+
 };
 
 class Accounts_data
@@ -89,3 +91,4 @@ protected:
 	int count; // counter of accs
 	vector<Account> data;
 };
+

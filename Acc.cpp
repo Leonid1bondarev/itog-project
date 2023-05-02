@@ -55,6 +55,7 @@ void Account::print_recv_massage()
 	}
 }
 bool Accounts_data::containsLog(string login) //func for checking are loging already in use or no
+
 {
 	bool rezult = false;
 

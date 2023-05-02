@@ -1,7 +1,6 @@
 ﻿#include <iostream>
 
 #include "Acc.h"
-
 struct for_menu // structure to return value from menu
 {
 	int id = -1;  // we know who logged in
@@ -31,7 +30,6 @@ int main()
 
 		// Launching the chat menu
 		if (chat_menu(accs, rezult.id)) break;		// if you left the function with false, then exit the while loop
-
 	}
 
 	return 0;
@@ -107,7 +105,6 @@ for_menu login_menu(Accounts_data& accs)
 				break;
 			}
 		}
-
 		accs.add_acc(acc); //added the created account
 	}
 	case '2':
@@ -159,10 +156,10 @@ for_menu login_menu(Accounts_data& accs)
 		break;
 	}
 	default:
-	{
-		cout << "Wrong choice" << endl;
-		break;
-	}
+		{
+			cout << "Wrong choice" << endl;
+			break;
+		}
 	}
 
 	return rezult;
