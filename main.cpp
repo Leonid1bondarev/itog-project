@@ -1,13 +1,10 @@
-#include <iostream>
+﻿#include <iostream>
 
 #include "Acc.h"
-
-//using namespace std;
-
-struct for_menu // ñòðóêòóðà äëÿ âîçâðàòà çíà÷åíèÿ èç ìåíþ
+struct for_menu // structure to return value from menu
 {
-	int id = -1;  // ìû çíàåì êòî çàëîãèíèëñÿ 
-	bool res = false; // ýòî åñëè îøèáêà âûáîðà \ ïðåâûøåíî êîëè÷åñòâî ââîäîâ \ ïðîñòî âûõîä
+	int id = -1;  // we know who logged in
+	bool res = false; // this is if selection error \ number of inputs exceeded \ just exit
 };
 
 for_menu login_menu(Accounts_data& accs);
@@ -19,7 +16,7 @@ int main()
 {
 	setlocale(LC_ALL, "rus");
 
-	Accounts_data accs; // òóò áóäóò õðàíèòüñÿ ÂÑÅ ëîãèíû è èõ ïàðîëè
+	Accounts_data accs; // ALL logins and their passwords will be stored here
 
 	cout << "---------------------------------------" << endl;
 	cout << "	Welcome to the chat app! " << endl;
@@ -27,13 +24,12 @@ int main()
 
 	while (true)
 	{
-		// Çàïóñê ìåíþ ëîãèíà
-		for_menu rezult = login_menu(accs);  // â ïåðåìåííîé rezult õðàíèì id ïîëüçîâàòåëÿ, êîòîðûé çàëîãèíèëñÿ óñïåøíî
-		if (!rezult.res) break;	// åñëè âûøëè èç ôóíêöèè ñ false, òî âûéòè èç öèêëà while è çàâåðøèòü ïðîãó
+		// Launching the login menu
+		for_menu rezult = login_menu(accs);  // в переменной rezult храним id пользователя, который залогинился успешно
+		if (!rezult.res) break;	// if you exited the function with false, then exit the while loop and end the program
 
-		// Çàïóñê ìåíþ ÷àòà
-		if (chat_menu(accs, rezult.id)) break;		// åñëè âûøëè èç ôóíêöèè ñ false, òî âûéòè èç öèêëà while
-
+		// Launching the chat menu
+		if (chat_menu(accs, rezult.id)) break;		// if you left the function with false, then exit the while loop
 	}
 
 	return 0;
@@ -66,7 +62,7 @@ for_menu login_menu(Accounts_data& accs)
 		{
 			cout << "Enter the login for your account: " << endl;
 			cin >> tmp;
-			if (accs.containsLog(tmp))         //òåñò ïðîâåðêè íà çàíÿòîñòü ëîãèíà
+			if (accs.containsLog(tmp))         //login busy test
 			{
 				cout << "Login is busy\n";
 			}
@@ -82,7 +78,7 @@ for_menu login_menu(Accounts_data& accs)
 		while (true)
 		{
 			cin >> tmp;
-			if (tmp.size() > 5) // ïàðîëü äëèíåå 5 ñèìâîëîâ
+			if (tmp.size() > 5) // password longer than 5 characters
 			{
 				acc.set_password(tmp);
 				break;
@@ -97,7 +93,7 @@ for_menu login_menu(Accounts_data& accs)
 		{
 			cout << "Come up with a name for your account: " << endl;
 			cin >> tmp;
-			if (accs.containsName(tmp))         //òåñò ïðîâåðêè íà çàíÿòîñòü name
+			if (accs.containsName(tmp))         //occupancy test name
 			{
 				cout << "Name is busy\n";
 			}
@@ -109,17 +105,14 @@ for_menu login_menu(Accounts_data& accs)
 				break;
 			}
 		}
-
-		accs.add_acc(acc); //çàíåñëè ñîçäàííûé àêêàóíò
-
-		//break; // òóò áðýéê íå íóæåí, ìû æå ñîçäàëè àêêàóíò, òåïåðü èäåì ëîãèíèòüñÿ, ò.å. â íåêñò êåéç
+		accs.add_acc(acc); //added the created account
 	}
 	case '2':
 	{
-		if (accs.count_acc() == 0) // åñëè íåò íè îäíîãî àêêàóíòà, òî ïîïðîñèì ïåðåçàïóñòèòü ÷àò è ñîçäàòü àêêàóíò
+		if (accs.count_acc() == 0) // if there is no account, then we will ask you to restart the chat and create an account
 		{
 			cout << "There is not a single registration! Re-enter the chat and create an account!" << endl;
-			return rezult; // çàêðûëè ÷àò, àíàëîã ââîäà q
+			return rezult; // closed the chat, analog input q
 		}
 
 		string tmp;
@@ -181,6 +174,7 @@ bool chat_menu(Accounts_data& accs, int id) // ÍÅÎÁÕÎÄÈÌÎ ÑÄÅËÀÒ
 			<< "1 - View received messages " << endl
 			<< "2 - View sent messages " << endl
 			<< "3 - Write a new letter " << endl
+			<< "4 - Write a new letter to all members of chat " << endl
 			<< "q - Sign out" << endl;
 
 		char choice;
@@ -189,7 +183,6 @@ bool chat_menu(Accounts_data& accs, int id) // ÍÅÎÁÕÎÄÈÌÎ ÑÄÅËÀÒ
 		{
 			cout << "You are logged out " << accs[id].get_name() << endl;
 			return false;
-			//break;
 		}
 
 		switch (choice)
@@ -199,13 +192,12 @@ bool chat_menu(Accounts_data& accs, int id) // ÍÅÎÁÕÎÄÈÌÎ ÑÄÅËÀÒ
 
 			cout << "You have received the following messages: " << endl;
 			accs[id].print_recv_massage();
-			//put srm
 			break;
 		}
 		case '2':
 		{
 			cout << "You sent the following messages: " << endl;
-			//put ssm
+			accs[id].print_all_send_massage();
 			break;
 		}
 		case '3':
@@ -213,30 +205,23 @@ bool chat_menu(Accounts_data& accs, int id) // ÍÅÎÁÕÎÄÈÌÎ ÑÄÅËÀÒ
 			string receiver;
 			while (true)
 			{
-				cout << "Enter the username you want to write to: " << endl; // если мы отправляем по имени, то нам нужно предусмотреть то, что они не повторяются
+				cout << "Enter the username you want to write to: " << endl; // user names and logins are not repeated, so we can send either by login or by account name (we send by name)
 				cin >> receiver;
 				if (accs.containsName(receiver))         //occupancy test name
 				{
-					//add add_sm for this acc and add_rm for reciever
-					string msg;
-					cout << "Enter you massage: " << endl; // если мы отправляем по имени, то нам нужно предусмотреть то, что они не повторяются
-					cin >> msg;
+					string msg; //message
+					cout << "Enter you massage: " << endl;
+					getline(cin, msg);
+					getline(cin, msg);  //if write "getline" only one time it's working incorrectly(displays all text except the first word)
 
-					// узнать айди
+					// find out id
 					int id_recver = accs.get_id_by_name(receiver);
 
-					// отладка
-					//Message tmp1(msg, id, id_recver); // для сендера
-					//Message tmp2(msg, id_recver, id); // для реквера
-					//
-					//accs[id].send_mess.push_back(tmp1);
-					//accs[id_recver].recv_mess.push_back(tmp2);
+					// save in received from the recipient
+					accs[id_recver].set_recv_mess(msg, accs[id].get_name());
 
-					// сохраняем в принятых у принимающего
-					accs[id_recver].set_recv_mess(msg, id);
-					
-					// сохраняем в отправленных у отправляющего
-					accs[id].set_send_mess(msg, id_recver);
+					// save in sent from the sender
+					accs[id].set_send_mess(msg, receiver);
 
 					break;
 				}
@@ -244,6 +229,22 @@ bool chat_menu(Accounts_data& accs, int id) // ÍÅÎÁÕÎÄÈÌÎ ÑÄÅËÀÒ
 				{
 					cout << "user with this name not found\n";
 				}
+			}
+			break;
+		}
+		case '4':
+		{
+			string msg; //message
+			cout << "Enter you massage: " << endl;
+			getline(cin, msg);
+			getline(cin, msg);
+			for (int i = 0; i < accs.count_acc(); i++) //entering the message into the database for each recipient
+			{
+				accs[i].set_recv_mess(msg, accs[id].get_name());
+			}
+			for (int i = 0; i < accs.count_acc(); i++) //entering the message into the database for sender
+			{
+				accs[id].set_send_mess(msg, accs[i].get_name());
 			}
 			break;
 		}

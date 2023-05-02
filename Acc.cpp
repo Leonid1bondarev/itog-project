@@ -1,6 +1,61 @@
 #include "Acc.h"
 
-bool Accounts_data::containsLog(string login) //ìîæíî ñþäà äîáàâèòü âëîæåííûé öèêë, ÷òîáû â êàæäîé èòòåðàöèè öèêëà ïðîâåðÿòü åù¸ è èìÿ
+/*void Account::set_recv_mess(string mess, int id_sender)
+{
+	Message tmp(mess, id_sender, my_id);
+	recv_mess.push_back(tmp);
+}
+
+void Account::set_send_mess(string mess, int id_recver)
+{
+	Message tmp(mess, my_id, id_recver);
+	send_mess.push_back(tmp);
+}
+
+void Account::print_all_send_massage()
+{
+	for (int i = 0; i < send_mess.size(); ++i)
+	{
+		cout << "id recipient = " << send_mess[i].get_id_recv() << "  msg: " << send_mess[i].get_mess() << endl;
+	}
+}
+
+void Account::print_recv_massage()
+{
+	for (int i = 0; i < recv_mess.size(); ++i)
+	{
+		cout << "id sender = " << recv_mess[i].get_id_send() << "  msg: " << recv_mess[i].get_mess() << endl;
+	}
+}*/
+void Account::set_recv_mess(string mess, string name_sender)
+{
+	Message tmp(mess, name_sender, _name);
+	recv_mess.push_back(tmp);
+}
+
+void Account::set_send_mess(string mess, string name_recver)
+{
+	Message tmp(mess, _name, name_recver);
+	send_mess.push_back(tmp);
+}
+
+void Account::print_all_send_massage()
+{
+	for (int i = 0; i < send_mess.size(); ++i)
+	{
+		cout << "Name recipient = " << send_mess[i].get_name_recv() << "  msg: " << send_mess[i].get_mess() << endl;
+	}
+}
+
+void Account::print_recv_massage()
+{
+	for (int i = 0; i < recv_mess.size(); ++i)
+	{
+		cout << "Name sender = " << recv_mess[i].get_name_send() << "  msg: " << recv_mess[i].get_mess() << endl;
+	}
+}
+bool Accounts_data::containsLog(string login) //func for checking are loging already in use or no
+
 {
 	bool rezult = false;
 
@@ -55,43 +110,3 @@ int Accounts_data::get_id_by_name(string name)
 
 	return (-1);
 }
-
-void Account::set_recv_mess(string mess, int id_sender)
-{
-	Message tmp(mess, id_sender, my_id);
-	recv_mess.push_back(tmp);
-}
-
-void Account::set_send_mess(string mess, int id_recver)
-{
-	Message tmp(mess, my_id, id_recver);
-	send_mess.push_back(tmp);
-}
-
-void Account::print_recv_massage()
-{
-	for (int i = 0; i < recv_mess.size(); ++i)
-	{
-		cout << "id sender = " << recv_mess[i].get_id_send() << "  msg: " << recv_mess[i].get_mess() << endl;
-	}
-}
-
-//string Account::srm()
-//{
-//	for (int i = 0; i < crm; i++)
-//	{
-//		cout << received_message[i] << endl;
-//	}
-//
-//	return "AAAA"; //затычка
-//}
-//
-//string Account::ssm()
-//{
-//	for (int i = 0; i < csm; i++)
-//	{
-//		cout << sent_message[i] << endl;
-//	}
-//
-//	return "AAAA"; //затычка
-//}
