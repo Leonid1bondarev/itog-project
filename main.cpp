@@ -1,6 +1,19 @@
-﻿#include <iostream>
+#include <iostream>
 
 #include "Acc.h"
+#include <cstdlib>
+
+
+
+void clear_screen()
+{
+#ifdef _WIN32
+	std::system("cls");
+#else
+	std::system("clear");
+#endif
+}
+
 struct for_menu // structure to return value from menu
 {
 	int id = -1;  // we know who logged in
@@ -39,10 +52,12 @@ for_menu login_menu(Accounts_data& accs)
 {
 	for_menu rezult;
 
+	cout << "----------------------------------\n";
 	cout << " Make a choice: " << endl
 		<< "	1 - registration" << endl
 		<< "	2 - log in to your account" << endl
 		<< "	q - exit the chat " << endl;
+	cout << "----------------------------------\n";
 
 	char choice;
 	cin >> choice;
@@ -102,6 +117,7 @@ for_menu login_menu(Accounts_data& accs)
 				acc.set_name(tmp);
 				acc.set_my_id(accs.count_acc());
 				cout << "Account created!\n";
+				cout << "-------------------\n";
 				break;
 			}
 		}
@@ -144,6 +160,7 @@ for_menu login_menu(Accounts_data& accs)
 			{
 				rezult.id = id;
 				rezult.res = true;
+				clear_screen();
 				cout << "Authentication was successful!" << endl;
 				break;
 			}
@@ -156,32 +173,34 @@ for_menu login_menu(Accounts_data& accs)
 		break;
 	}
 	default:
-		{
-			cout << "Wrong choice" << endl;
-			break;
-		}
+	{
+		cout << "Wrong choice" << endl;
+		break;
+	}
 	}
 
 	return rezult;
 }
 
 
-bool chat_menu(Accounts_data& accs, int id) // ÍÅÎÁÕÎÄÈÌÎ ÑÄÅËÀÒÜ!
+bool chat_menu(Accounts_data& accs, int id) 
 {
 	while (true)
 	{
+		cout << "\n------------------------------------\n";
 		cout << "Select one of following actions: " << endl
 			<< "1 - View received messages " << endl
 			<< "2 - View sent messages " << endl
 			<< "3 - Write a new letter " << endl
 			<< "4 - Write a new letter to all members of chat " << endl
 			<< "q - Sign out" << endl;
+		cout << "------------------------------------\n";
 
 		char choice;
 		cin >> choice;
 		if (choice == 'q')
 		{
-			cout << "You are logged out " << accs[id].get_name() << endl;
+			cout << "You are logged out! " << accs[id].get_name() << endl;
 			return false;
 		}
 
@@ -189,19 +208,31 @@ bool chat_menu(Accounts_data& accs, int id) // ÍÅÎÁÕÎÄÈÌÎ ÑÄÅËÀÒ
 		{
 		case '1':
 		{
-
+			clear_screen();
 			cout << "You have received the following messages: " << endl;
-			accs[id].print_recv_massage();
+			bool asdasd = accs[id].is_empty_recv();
+			if (accs[id].is_empty_recv())
+			{
+				cout << "No messages received!" << endl;
+			}
+			else 
+				accs[id].print_all_recv_massage();
 			break;
 		}
 		case '2':
 		{
+			clear_screen();
 			cout << "You sent the following messages: " << endl;
-			accs[id].print_all_send_massage();
+			if (accs[id].is_empty_send())
+			{
+				cout << "No messages sent!" << endl;
+			}else 
+				accs[id].print_all_send_massage();
 			break;
 		}
 		case '3':
 		{
+			int attempt = 2;
 			string receiver;
 			while (true)
 			{
@@ -211,8 +242,8 @@ bool chat_menu(Accounts_data& accs, int id) // ÍÅÎÁÕÎÄÈÌÎ ÑÄÅËÀÒ
 				{
 					string msg; //message
 					cout << "Enter you massage: " << endl;
-					getline(cin, msg);
-					getline(cin, msg);  //if write "getline" only one time it's working incorrectly(displays all text except the first word)
+					cin.ignore();
+					getline(cin, msg); 
 
 					// find out id
 					int id_recver = accs.get_id_by_name(receiver);
@@ -227,7 +258,12 @@ bool chat_menu(Accounts_data& accs, int id) // ÍÅÎÁÕÎÄÈÌÎ ÑÄÅËÀÒ
 				}
 				else
 				{
-					cout << "user with this name not found\n";
+					if (attempt == 0) 
+					{ 
+						clear_screen(); 
+						break; 
+					}
+					cout << "User with this name not found!\nThere are still attempts left: " << attempt-- << endl;
 				}
 			}
 			break;
@@ -236,8 +272,9 @@ bool chat_menu(Accounts_data& accs, int id) // ÍÅÎÁÕÎÄÈÌÎ ÑÄÅËÀÒ
 		{
 			string msg; //message
 			cout << "Enter you massage: " << endl;
+			cin.ignore();
 			getline(cin, msg);
-			getline(cin, msg);
+
 			for (int i = 0; i < accs.count_acc(); i++) //entering the message into the database for each recipient
 			{
 				accs[i].set_recv_mess(msg, accs[id].get_name());
@@ -246,6 +283,7 @@ bool chat_menu(Accounts_data& accs, int id) // ÍÅÎÁÕÎÄÈÌÎ ÑÄÅËÀÒ
 			{
 				accs[id].set_send_mess(msg, accs[i].get_name());
 			}
+			clear_screen();
 			break;
 		}
 		default:
