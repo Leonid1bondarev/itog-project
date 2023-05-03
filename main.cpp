@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 
 #include "Acc.h"
 #include <cstdlib>
@@ -51,8 +51,10 @@ int main()
 for_menu login_menu(Accounts_data& accs)
 {
 	for_menu rezult;
+
 	bool first_while = true; //bool type to control the cycle
 	while (first_while)
+
 	{
 		cout << "----------------------------------\n";
 		cout << " Make a choice: " << endl
@@ -108,6 +110,7 @@ for_menu login_menu(Accounts_data& accs)
 
 			while (true)
 			{
+
 				cout << "Come up with a name for your account: " << endl;
 				cin >> tmp;
 				if (accs.containsName(tmp))         //occupancy test name
@@ -122,6 +125,7 @@ for_menu login_menu(Accounts_data& accs)
 					cout << "-------------------\n";
 					break;
 				}
+
 			}
 			accs.add_acc(acc); //added the created account
 		}
@@ -139,6 +143,7 @@ for_menu login_menu(Accounts_data& accs)
 
 			while (true)
 			{
+
 				cout << "Enter login: " << endl;
 				cin >> tmp;
 				if (accs.containsLog(tmp))
@@ -152,6 +157,7 @@ for_menu login_menu(Accounts_data& accs)
 					if (attempt == 0) return rezult;
 					cout << "Wrong login! There are still attempts left: " << attempt-- << endl;
 				}
+
 			}
 
 			attempt = 2;
@@ -175,18 +181,22 @@ for_menu login_menu(Accounts_data& accs)
 			}
 			break;
 		}
+
 		default:
 		{
 			cout << "Wrong choice " << endl;
 			break;
 		}
 		}
+
 	}
 	return rezult;
 }
 
 
+
 bool chat_menu(Accounts_data& accs, int id)
+
 {
 	while (true)
 	{
@@ -213,11 +223,15 @@ bool chat_menu(Accounts_data& accs, int id)
 		{
 			clear_screen();
 			cout << "You have received the following messages: " << endl;
+
+
 			if (accs[id].is_empty_recv())
 			{
 				cout << "No messages received!" << endl;
 			}
+
 			else
+
 				accs[id].print_all_recv_massage();
 			break;
 		}
@@ -228,8 +242,10 @@ bool chat_menu(Accounts_data& accs, int id)
 			if (accs[id].is_empty_send())
 			{
 				cout << "No messages sent!" << endl;
+
 			}
 			else
+
 				accs[id].print_all_send_massage();
 			break;
 		}
@@ -246,7 +262,9 @@ bool chat_menu(Accounts_data& accs, int id)
 					string msg; //message
 					cout << "Enter you massage: " << endl;
 					cin.ignore();
+
 					getline(cin, msg);
+
 
 					// find out id
 					int id_recver = accs.get_id_by_name(receiver);
@@ -261,10 +279,12 @@ bool chat_menu(Accounts_data& accs, int id)
 				}
 				else
 				{
+
 					if (attempt == 0)
 					{
 						clear_screen();
 						break;
+
 					}
 					cout << "User with this name not found!\nThere are still attempts left: " << attempt-- << endl;
 				}
