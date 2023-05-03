@@ -1,32 +1,5 @@
 #include "Acc.h"
 
-/*void Account::set_recv_mess(string mess, int id_sender)
-{
-	Message tmp(mess, id_sender, my_id);
-	recv_mess.push_back(tmp);
-}
-
-void Account::set_send_mess(string mess, int id_recver)
-{
-	Message tmp(mess, my_id, id_recver);
-	send_mess.push_back(tmp);
-}
-
-void Account::print_all_send_massage()
-{
-	for (int i = 0; i < send_mess.size(); ++i)
-	{
-		cout << "id recipient = " << send_mess[i].get_id_recv() << "  msg: " << send_mess[i].get_mess() << endl;
-	}
-}
-
-void Account::print_recv_massage()
-{
-	for (int i = 0; i < recv_mess.size(); ++i)
-	{
-		cout << "id sender = " << recv_mess[i].get_id_send() << "  msg: " << recv_mess[i].get_mess() << endl;
-	}
-}*/
 void Account::set_recv_mess(string mess, string name_sender)
 {
 	Message tmp(mess, name_sender, _name);
@@ -43,17 +16,18 @@ void Account::print_all_send_massage()
 {
 	for (int i = 0; i < send_mess.size(); ++i)
 	{
-		cout << "Name recipient = " << send_mess[i].get_name_recv() << "  msg: " << send_mess[i].get_mess() << endl;
+		cout << "Name recipient: " << send_mess[i].get_name_recv() << "  msg: " << send_mess[i].get_mess() << endl;
 	}
 }
 
-void Account::print_recv_massage()
+void Account::print_all_recv_massage()
 {
 	for (int i = 0; i < recv_mess.size(); ++i)
 	{
-		cout << "Name sender = " << recv_mess[i].get_name_send() << "  msg: " << recv_mess[i].get_mess() << endl;
+		cout << "Name sender: " << recv_mess[i].get_name_send() << "  msg: " << recv_mess[i].get_mess() << endl;
 	}
 }
+
 bool Accounts_data::containsLog(string login) //func for checking are loging already in use or no
 
 {
