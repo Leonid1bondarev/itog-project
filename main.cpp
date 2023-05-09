@@ -52,138 +52,166 @@ for_menu login_menu(Accounts_data& accs)
 {
 	for_menu rezult;
 
-	cout << "----------------------------------\n";
-	cout << " Make a choice: " << endl
-		<< "	1 - registration" << endl
-		<< "	2 - log in to your account" << endl
-		<< "	q - exit the chat " << endl;
-	cout << "----------------------------------\n";
+	bool first_while = true; //bool type to control the cycle
+	while (first_while)
 
-	char choice;
-	cin >> choice;
-	if (choice == 'q')
 	{
-		return rezult;
-	}
+		cout << "----------------------------------\n";
+		cout << " Make a choice: " << endl
+			<< "	1 - registration" << endl
+			<< "	2 - log in to your account" << endl
+			<< "	q - exit the chat " << endl;
+		cout << "----------------------------------\n";
 
-	switch (choice)
-	{
-	case '1':
-	{
-		Account acc;
-		string tmp;
+		char choice;
+		cin >> choice;
 
-		while (true)
+		try
 		{
-			cout << "Enter the login for your account: " << endl;
-			cin >> tmp;
-			if (accs.containsLog(tmp))         //login busy test
+			if (!(choice == '1' || choice == '2' || choice == 'q'))
 			{
-				cout << "Login is busy\n";
+				throw "Error choice!";
 			}
-			else
+
+		}
+		catch (const char* exception)
+		{
+			cout << exception << endl;
+			continue;
+		}
+
+		if (choice == 'q')
+		{
+			return rezult;
+		}
+
+		switch (choice)
+		{
+		case '1':
+		{
+			Account acc;
+			string tmp;
+
+			while (true)
 			{
-				acc.set_login(tmp);
-				cout << "Login created!\n";
+				cout << "Enter the login for your account: " << endl;
+				cin >> tmp;
+				if (accs.containsLog(tmp))         //login busy test
+				{
+					cout << "Login is busy\n";
+				}
+				else
+				{
+					acc.set_login(tmp);
+					cout << "Login created!\n";
+					break;
+				}
+			}
+
+			cout << "Enter the password for your account: " << endl;
+			while (true)
+			{
+				cin >> tmp;
+				if (tmp.size() > 5) // password longer than 5 characters
+				{
+					acc.set_password(tmp);
+					break;
+				}
+				else
+				{
+					cout << "Enter a password longer than 5 symbols!" << endl;
+				}
+			}
+
+			while (true)
+			{
+
+				cout << "Come up with a name for your account: " << endl;
+				cin >> tmp;
+				if (accs.containsName(tmp))         //occupancy test name
+				{
+					cout << "Name is busy\n";
+				}
+				else
+				{
+					acc.set_name(tmp);
+					acc.set_my_id(accs.count_acc());
+					cout << "Account created!\n";
+					cout << "-------------------\n";
+					break;
+				}
+
+			}
+			accs.add_acc(acc); //added the created account
+		}
+		case '2':
+		{
+			if (accs.count_acc() == 0) // if there is no account, then we will ask you to restart the chat and create an account
+			{
+				cout << "There is not a single registration! Register to get started!" << endl;
 				break;
 			}
+
+			string tmp;
+			int attempt = 2;
+			int id;
+
+			while (true)
+			{
+
+				cout << "Enter login: " << endl;
+				cin >> tmp;
+				if (accs.containsLog(tmp))
+				{
+					id = accs.get_id_by_login(tmp);
+					cout << "Hello, " << accs[id].get_name() << "!\n Enter password: \n";
+					break;
+				}
+				else
+				{
+					if (attempt == 0) return rezult;
+					cout << "Wrong login! There are still attempts left: " << attempt-- << endl;
+				}
+
+			}
+
+			attempt = 2;
+			while (true)
+			{
+				cin >> tmp;
+				if (tmp == accs[id].get_password())
+				{
+					rezult.id = id;
+					rezult.res = true;   //to continue work of programm
+					first_while = false; //to continue work of programm
+					clear_screen();
+					cout << "Authentication was successful!" << endl;
+					break;
+				}
+				else
+				{
+					if (attempt == 0) return rezult;
+					cout << "Wrong password! There are still attempts left: " << attempt-- << endl;
+				}
+			}
+			break;
 		}
 
-		cout << "Enter the password for your account: " << endl;
-		while (true)
+		default:
 		{
-			cin >> tmp;
-			if (tmp.size() > 5) // password longer than 5 characters
-			{
-				acc.set_password(tmp);
-				break;
-			}
-			else
-			{
-				cout << "Enter a password longer than 5 symbols!" << endl;
-			}
+			cout << "Wrong choice " << endl;
+			break;
+		}
 		}
 
-		while (true)
-		{
-			cout << "Come up with a name for your account: " << endl;
-			cin >> tmp;
-			if (accs.containsName(tmp))         //occupancy test name
-			{
-				cout << "Name is busy\n";
-			}
-			else
-			{
-				acc.set_name(tmp);
-				acc.set_my_id(accs.count_acc());
-				cout << "Account created!\n";
-				cout << "-------------------\n";
-				break;
-			}
-		}
-		accs.add_acc(acc); //added the created account
 	}
-	case '2':
-	{
-		if (accs.count_acc() == 0) // if there is no account, then we will ask you to restart the chat and create an account
-		{
-			cout << "There is not a single registration! Re-enter the chat and create an account!" << endl;
-			return rezult; // closed the chat, analog input q
-		}
-
-		string tmp;
-		int attempt = 2;
-		int id;
-
-		while (true)
-		{
-			cout << "Enter login: " << endl;
-			cin >> tmp;
-			if (accs.containsLog(tmp))
-			{
-				id = accs.get_id_by_login(tmp);
-				cout << "Hello, " << accs[id].get_name() << "!\n Enter password: \n";
-				break;
-			}
-			else
-			{
-				if (attempt == 0) return rezult;
-				cout << "Wrong login! There are still attempts left: " << attempt-- << endl;
-			}
-		}
-
-		attempt = 2;
-		while (true)
-		{
-			cin >> tmp;
-			if (tmp == accs[id].get_password())
-			{
-				rezult.id = id;
-				rezult.res = true;
-				clear_screen();
-				cout << "Authentication was successful!" << endl;
-				break;
-			}
-			else
-			{
-				if (attempt == 0) return rezult;
-				cout << "Wrong password! There are still attempts left: " << attempt-- << endl;
-			}
-		}
-		break;
-	}
-	default:
-	{
-		cout << "Wrong choice" << endl;
-		break;
-	}
-	}
-
 	return rezult;
 }
 
 
-bool chat_menu(Accounts_data& accs, int id) 
+
+bool chat_menu(Accounts_data& accs, int id)
+
 {
 	while (true)
 	{
@@ -198,6 +226,22 @@ bool chat_menu(Accounts_data& accs, int id)
 
 		char choice;
 		cin >> choice;
+
+		try 
+		{
+			if (!(choice == '1' || choice == '2' || choice == '3' || choice == '4' || choice == 'q'))
+			{
+				throw "Error choice!";
+			}
+
+		}
+		catch (const char* exception)
+		{
+			cout << exception << endl;
+			continue;
+		}
+
+
 		if (choice == 'q')
 		{
 			cout << "You are logged out! " << accs[id].get_name() << endl;
@@ -210,12 +254,15 @@ bool chat_menu(Accounts_data& accs, int id)
 		{
 			clear_screen();
 			cout << "You have received the following messages: " << endl;
-			bool asdasd = accs[id].is_empty_recv();
+
+
 			if (accs[id].is_empty_recv())
 			{
 				cout << "No messages received!" << endl;
 			}
-			else 
+
+			else
+
 				accs[id].print_all_recv_massage();
 			break;
 		}
@@ -226,7 +273,10 @@ bool chat_menu(Accounts_data& accs, int id)
 			if (accs[id].is_empty_send())
 			{
 				cout << "No messages sent!" << endl;
-			}else 
+
+			}
+			else
+
 				accs[id].print_all_send_massage();
 			break;
 		}
@@ -243,7 +293,9 @@ bool chat_menu(Accounts_data& accs, int id)
 					string msg; //message
 					cout << "Enter you massage: " << endl;
 					cin.ignore();
-					getline(cin, msg); 
+
+					getline(cin, msg);
+
 
 					// find out id
 					int id_recver = accs.get_id_by_name(receiver);
@@ -258,10 +310,12 @@ bool chat_menu(Accounts_data& accs, int id)
 				}
 				else
 				{
-					if (attempt == 0) 
-					{ 
-						clear_screen(); 
-						break; 
+
+					if (attempt == 0)
+					{
+						clear_screen();
+						break;
+
 					}
 					cout << "User with this name not found!\nThere are still attempts left: " << attempt-- << endl;
 				}
