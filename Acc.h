@@ -21,6 +21,7 @@ private:
 	string _name_recv;
 };
 
+
 class Account
 {
 public:
@@ -41,16 +42,19 @@ public:
 	void print_all_send_massage();
 	void print_all_recv_massage();
 
-	inline bool is_empty_recv() 
+
+	inline bool is_empty_recv()
 	{
 		if (recv_mess.size() == 0)
 			return true;
 		else return false;
 	}
-	inline bool is_empty_send() 
-	{ 
-		if (send_mess.size() == 0) 
-			return true; 
+
+	inline bool is_empty_send()
+	{
+		if (send_mess.size() == 0)
+			return true;
+
 		else return false;
 	}
 
@@ -62,7 +66,6 @@ protected:
 
 	vector<Message> recv_mess;
 	vector<Message> send_mess;
-
 };
 
 class Accounts_data
@@ -93,4 +96,5 @@ public:
 protected:
 	int count; // counter of accs
 	vector<Account> data;
+
 };
