@@ -63,6 +63,7 @@ for_menu login_menu(Accounts_data& accs)
 			<< "	q - exit the chat " << endl;
 		cout << "----------------------------------\n";
 
+
 		char choice;
 		cin >> choice;
 
@@ -86,13 +87,16 @@ for_menu login_menu(Accounts_data& accs)
 		}
 
 		switch (choice)
+
 		{
 		case '1':
 		{
+
 			Account acc;
 			string tmp;
 
 			while (true)
+
 			{
 				cout << "Enter the login for your account: " << endl;
 				cin >> tmp;
