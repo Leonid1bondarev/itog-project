@@ -63,21 +63,40 @@ for_menu login_menu(Accounts_data& accs)
 			<< "	q - exit the chat " << endl;
 		cout << "----------------------------------\n";
 
+
 		char choice;
 		cin >> choice;
+
+		try
+		{
+			if (!(choice == '1' || choice == '2' || choice == 'q'))
+			{
+				throw "Error choice!";
+			}
+
+		}
+		catch (const char* exception)
+		{
+			cout << exception << endl;
+			continue;
+		}
+
 		if (choice == 'q')
 		{
 			return rezult;
 		}
 
 		switch (choice)
+
 		{
 		case '1':
 		{
+
 			Account acc;
 			string tmp;
 
 			while (true)
+
 			{
 				cout << "Enter the login for your account: " << endl;
 				cin >> tmp;
@@ -134,7 +153,7 @@ for_menu login_menu(Accounts_data& accs)
 			if (accs.count_acc() == 0) // if there is no account, then we will ask you to restart the chat and create an account
 			{
 				cout << "There is not a single registration! Register to get started!" << endl;
-				break; 
+				break;
 			}
 
 			string tmp;
@@ -211,6 +230,22 @@ bool chat_menu(Accounts_data& accs, int id)
 
 		char choice;
 		cin >> choice;
+
+		try 
+		{
+			if (!(choice == '1' || choice == '2' || choice == '3' || choice == '4' || choice == 'q'))
+			{
+				throw "Error choice!";
+			}
+
+		}
+		catch (const char* exception)
+		{
+			cout << exception << endl;
+			continue;
+		}
+
+
 		if (choice == 'q')
 		{
 			cout << "You are logged out! " << accs[id].get_name() << endl;

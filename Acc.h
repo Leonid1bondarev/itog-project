@@ -21,6 +21,7 @@ private:
 	string _name_recv;
 };
 
+
 class Account
 {
 public:
@@ -43,7 +44,6 @@ public:
 
 
 	inline bool is_empty_recv()
-
 	{
 		if (recv_mess.size() == 0)
 			return true;
@@ -66,7 +66,6 @@ protected:
 
 	vector<Message> recv_mess;
 	vector<Message> send_mess;
-
 };
 
 class Accounts_data
